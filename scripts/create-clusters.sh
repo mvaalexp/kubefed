@@ -37,8 +37,11 @@ function create-clusters() {
   elif [[ "${KIND_TAG}" ]]; then
     image_arg="--image=kindest/node:${KIND_TAG}"
   fi
+  if [[ "${KIND_CONFIG_PATH}" ]]; then
+    config_arg="--config=${KIND_CONFIG_PATH}"
+  fi
   for i in $(seq "${num_clusters}"); do
-    kind create cluster --name "cluster${i}" "${image_arg}"
+    kind create cluster --name "cluster${i}" "${image_arg}" "${config_arg}"
     fixup-cluster "${i}"
     echo
 
